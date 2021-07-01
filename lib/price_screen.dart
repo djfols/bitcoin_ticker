@@ -12,9 +12,16 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
-  String btc= '💰';
+  String btc = '💰';
   String eth = '💰';
   String ltc = '💰';
+  String bnb = '💰';
+  String xrp = '💰';
+  String ada = '💰';
+  String sol = '💰';
+  String dot = '💰';
+  String uni = '💰';
+  String doge = '💰';
   PriceBrain price = PriceBrain();
 
   @override
@@ -25,7 +32,6 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   void getPrices() async {
-
     var coinPrices = await price.getCoinPrices(currency: selectedCurrency);
     updateUI(coinPrices);
   }
@@ -35,10 +41,24 @@ class _PriceScreenState extends State<PriceScreen> {
       String btcPrice = priceData['BTC'].toStringAsFixed(2);
       String ethPrice = priceData['ETH'].toStringAsFixed(2);
       String ltcPrice = priceData['LTC'].toStringAsFixed(2);
+      String bnbPrice = priceData['BNB'].toStringAsFixed(2);
+      String xrpPrice = priceData['XRP'].toStringAsFixed(2);
+      String adaPrice = priceData['ADA'].toStringAsFixed(2);
+      String solPrice = priceData['SOL'].toStringAsFixed(2);
+      String uniPrice = priceData['UNI'].toStringAsFixed(2);
+      String dogePrice = priceData['DOGE'].toStringAsFixed(2);
+      String dotPrice = priceData['DOT'].toStringAsFixed(2);
 
       btc = btcPrice;
       eth = ethPrice;
       ltc = ltcPrice;
+      bnb = bnbPrice;
+      xrp = xrpPrice;
+      ada = adaPrice;
+      sol = solPrice;
+      uni = uniPrice;
+      doge = dogePrice;
+      dot = dotPrice;
     });
   }
 
@@ -46,7 +66,12 @@ class _PriceScreenState extends State<PriceScreen> {
     List<DropdownMenuItem<String>> dropdownItems = [];
 
     for (String currency in currenciesList) {
-      var newItem = DropdownMenuItem(child: Text(currency), value: currency);
+      var newItem = DropdownMenuItem(
+          child: Text(
+            currency,
+            style: TextStyle(fontSize: 20.0),
+          ),
+          value: currency);
 
       dropdownItems.add(newItem);
     }
@@ -57,7 +82,6 @@ class _PriceScreenState extends State<PriceScreen> {
       onChanged: (value) {
         setState(() {
           selectedCurrency = value;
-
         });
         getPrices();
       },
@@ -67,7 +91,10 @@ class _PriceScreenState extends State<PriceScreen> {
   CupertinoPicker iOSPicker() {
     List<Text> pickerItems = [];
     for (String currency in currenciesList) {
-      var newItem = Text(currency);
+      var newItem = Text(
+        currency,
+        style: TextStyle(fontSize: 20.0),
+      );
       pickerItems.add(newItem);
     }
 
@@ -77,7 +104,6 @@ class _PriceScreenState extends State<PriceScreen> {
       onSelectedItemChanged: (selectedIndex) {
         setState(() {
           selectedCurrency = currenciesList[selectedIndex];
-
         });
         getPrices();
       },
@@ -87,24 +113,35 @@ class _PriceScreenState extends State<PriceScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('🤑 Coin Ticker'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          CoinCard(coin: 'BTC', currency: selectedCurrency, price: btc),
-          CoinCard(coin: 'ETH', currency: selectedCurrency, price: eth),
-          CoinCard(coin: 'LTC', currency: selectedCurrency, price: ltc),
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                CoinCard(coin: 'BTC', currency: selectedCurrency, price: btc),
+                CoinCard(coin: 'ETH', currency: selectedCurrency, price: eth),
+                CoinCard(coin: 'BNB', currency: selectedCurrency, price: bnb),
+                CoinCard(coin: 'ADA', currency: selectedCurrency, price: ada),
+                CoinCard(coin: 'DOGE', currency: selectedCurrency, price: doge),
+                CoinCard(coin: 'XRP', currency: selectedCurrency, price: xrp),
+                CoinCard(coin: 'DOT', currency: selectedCurrency, price: dot),
+                CoinCard(coin: 'UNI', currency: selectedCurrency, price: uni),
+                CoinCard(coin: 'SOL', currency: selectedCurrency, price: sol),
+                CoinCard(coin: 'LTC', currency: selectedCurrency, price: ltc),
+              ],
+            ),
+          ),
           Container(
-            height: 150.0,
+            height: 70.0,
             alignment: Alignment.center,
-            padding: EdgeInsets.only(bottom: 30.0),
-            color: Colors.lightBlue,
-            child: Platform.isIOS ? iOSPicker() : androidDropdown(),
+            color: Color(0xFF96b497),
+            child: Center(
+              child: Platform.isIOS ? iOSPicker() : androidDropdown(),
+            ),
           ),
         ],
       ),
