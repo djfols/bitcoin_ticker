@@ -121,6 +121,7 @@ class _PriceScreenState extends State<PriceScreen> {
         children: [
           Expanded(
             child: ListView(
+              padding: EdgeInsets.only(top: 20, bottom: 20),
               children: [
                 CoinCard(coin: 'BTC', currency: selectedCurrency, price: btc),
                 CoinCard(coin: 'ETH', currency: selectedCurrency, price: eth),
